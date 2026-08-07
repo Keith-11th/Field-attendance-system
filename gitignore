@@ -1,0 +1,19 @@
+# Node / React
+node_modules/
+frontend/dist/
+frontend/build/
+.env
+.env.local
+
+# Python / Django (for later)
+__pycache__/
+*.pyc
+venv/
+env/
+backend/staticfiles/
+
+# Editor / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
