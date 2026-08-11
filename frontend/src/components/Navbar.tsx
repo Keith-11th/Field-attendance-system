@@ -14,6 +14,10 @@ function Navbar() {
       <Link to="/student/announcements" className="font-semibold text-gray-700 hover:text-blue-600">
         Announcements
       </Link>
+
+      <Link to="/student/reports" className="font-semibold text-gray-700 hover:text-blue-600">
+        Reports
+      </Link>
     </nav>
   )
 }
