@@ -10,6 +10,10 @@ function Navbar() {
       <Link to="/student/logbook" className="font-semibold text-gray-700 hover:text-blue-600">
         Logbook
       </Link>
+
+      <Link to="/student/announcements" className="font-semibold text-gray-700 hover:text-blue-600">
+        Announcements
+      </Link>
     </nav>
   )
 }
