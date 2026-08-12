@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import LecturerNavbar from './LecturerNavbar'
 
 function LecturerDashboard() {
@@ -34,7 +35,14 @@ function LecturerDashboard() {
             <tbody>
               {students.map((student) => (
                 <tr key={student.id} className="border-b last:border-0">
-                  <td className="py-2">{student.name}</td>
+                  <td className="py-2">
+                    <Link
+                      to={`/lecturer/student/${student.id}`}
+                      className="text-blue-600 hover:underline"
+                    >
+                      {student.name}
+                    </Link>
+                  </td>
                   <td className="py-2">{student.attendancePercent}%</td>
                   <td className="py-2">{student.logbookStatus}</td>
                 </tr>

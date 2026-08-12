@@ -5,6 +5,7 @@ import Logbook from './components/Logbook'
 import Announcements from './components/Announcements'
 import Reports from './components/Reports'
 import LecturerDashboard from './components/LecturerDashboard'
+import StudentDetail from './components/StudentDetail'
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path="/student/announcements" element={<Announcements />} />
         <Route path="/student/reports" element={<Reports />} />
         <Route path="/lecturer/dashboard" element={<LecturerDashboard />} />
+        <Route path="/lecturer/student/:studentId" element={<StudentDetail />} />
       </Routes>
     </BrowserRouter>
   )
