@@ -1,4 +1,5 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import Home from './components/Home'
 import Login from './components/Login'
 import StudentDashboard from './components/StudentDashboard'
 import Logbook from './components/Logbook'
@@ -12,8 +13,8 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Navigate to="/login" />} />
-        <Route path="/login" element={<Login />} />
+        <Route path="/" element={<Login />} />
+        <Route path="/dev-menu" element={<Home />} />
         <Route path="/student/dashboard" element={<StudentDashboard />} />
         <Route path="/student/logbook" element={<Logbook />} />
         <Route path="/student/announcements" element={<Announcements />} />
