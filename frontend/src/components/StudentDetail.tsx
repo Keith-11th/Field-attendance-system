@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { useParams } from 'react-router-dom'
 import LecturerNavbar from './LecturerNavbar'
 
@@ -12,6 +13,20 @@ function StudentDetail() {
 
   const student = students.find((s) => s.id === Number(studentId))
 
+  const [logbookEntries, setLogbookEntries] = useState([
+    { id: 1, text: 'Assisted with database backup procedures.', approved: false },
+    { id: 2, text: 'Attended team standup and reviewed pull requests.', approved: false },
+    { id: 3, text: 'Documented API endpoints for the new feature.', approved: true },
+  ])
+
+  function handleApprove(entryId: number) {
+    setLogbookEntries(
+      logbookEntries.map((entry) =>
+        entry.id === entryId ? { ...entry, approved: !entry.approved } : entry
+      )
+    )
+  }
+
   if (!student) {
     return <p>Student not found</p>
   }
@@ -25,13 +40,46 @@ function StudentDetail() {
           {student.name}
         </h1>
 
-        <div className="rounded-lg bg-white p-6 shadow-md">
+        <div className="mb-6 rounded-lg bg-white p-6 shadow-md">
           <p className="mb-2 text-gray-600">
             Attendance: {student.attendancePercent}%
           </p>
           <p className="text-gray-600">
             Logbook Status: {student.logbookStatus}
           </p>
+        </div>
+
+        <div className="rounded-lg bg-white p-6 shadow-md">
+          <h2 className="mb-4 text-lg font-semibold text-gray-800">
+            Logbook Entries
+          </h2>
+
+          <div className="flex flex-col gap-4">
+            {logbookEntries.map((entry) => (
+              <div
+                key={entry.id}
+                className="flex items-center justify-between border-b pb-4 last:border-0"
+              >
+                <p className="text-gray-700">{entry.text}</p>
+
+                {entry.approved ? (
+                  <button
+                    onClick={() => handleApprove(entry.id)}
+                    className="rounded-md bg-green-100 px-3 py-1 text-sm font-semibold text-green-700 hover:bg-green-200"
+                  >
+                    Approved
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => handleApprove(entry.id)}
+                    className="rounded-md bg-blue-600 px-4 py-1 text-sm font-semibold text-white hover:bg-blue-700"
+                  >
+                    Approve
+                  </button>
+                )}
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>
