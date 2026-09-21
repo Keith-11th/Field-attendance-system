@@ -1,33 +1,29 @@
-from django.contrib.auth.models import User
 from rest_framework import serializers
-from .models import UserProfile
+from django.contrib.auth.models import User
+from .models import UserProfile, Attendance, LogbookEntry
 
 class UserProfileSerializer(serializers.ModelSerializer):
+    username = serializers.CharField(source='user.username', read_only=True)
+    email = serializers.EmailField(source='user.email', read_only=True)
+
     class Meta:
         model = UserProfile
-        fields = ['role']
+        fields = ['id', 'username', 'email', 'role']
 
-class RegisterSerializer(serializers.ModelSerializer):
-    # We include 'role' here so the frontend can send whether they are a student, lecturer, etc.
-    role = serializers.CharField(write_only=True)
-    password = serializers.CharField(write_only=True, style={'input_type': 'password'})
+
+class AttendanceSerializer(serializers.ModelSerializer):
+    student_name = serializers.CharField(source='student.username', read_only=True)
 
     class Meta:
-        model = User
-        fields = ['username', 'email', 'password', 'role']
+        model = Attendance
+        fields = ['id', 'student', 'student_name', 'date', 'status', 'remarks']
+        read_only_fields = ['date']
 
-    def create(self, validated_data):
-        # Extract the role from the data, leaving only user fields
-        role = validated_data.pop('role', 'student')
-        
-        # Create the base Django user and securely hash their password
-        user = User.objects.create_user(
-            username=validated_data['username'],
-            email=validated_data.get('email', ''),
-            password=validated_data['password']
-        )
-        
-        # Automatically create their linked UserProfile with the specified role
-        UserProfile.objects.create(user=user, role=role)
-        
-        return user
+
+class LogbookEntrySerializer(serializers.ModelSerializer):
+    student_name = serializers.CharField(source='student.username', read_only=True)
+
+    class Meta:
+        model = LogbookEntry
+        fields = ['id', 'student', 'student_name', 'week_number', 'tasks_performed', 'challenges', 'status', 'created_at']
+        read_only_fields = ['created_at']
