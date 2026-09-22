@@ -1,60 +1,87 @@
-import { useState } from 'react'
-import Navbar from './Navbar'
+import { useState, useEffect } from 'react';
+import Navbar from './Navbar';
+import API from '../api';
+
+interface LogbookEntry {
+  id: number;
+  entry_text: string;
+  created_at?: string;
+}
 
 function Logbook() {
-  const [entryText, setEntryText] = useState('')
-  const [entries, setEntries] = useState<string[]>([])
+  const [entryText, setEntryText] = useState('');
+  const [entries, setEntries] = useState<LogbookEntry[]>([]);
+  const [loading, setLoading] = useState(false);
 
-  function handleSaveEntry() {
-    setEntries([...entries, entryText])
-    setEntryText('')
+  useEffect(() => {
+    fetchLogbooks();
+  }, []);
+
+  const fetchLogbooks = async () => {
+    try {
+      const response = await API.get<LogbookEntry[]>('logbooks/');
+      setEntries(response.data);
+    } catch (error) {
+      console.error('Error fetching logbooks:', error);
+    }
+  };
+
+  async function handleSaveEntry() {
+    if (!entryText.trim()) return;
+
+    setLoading(true);
+    try {
+      const response = await API.post<LogbookEntry>('logbooks/', {
+        entry_text: entryText
+      });
+
+      setEntries([response.data, ...entries]);
+      setEntryText('');
+    } catch (error) {
+      console.error('Error saving logbook entry:', error);
+      alert('Failed to save logbook entry. Make sure you are logged in!');
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div>
       <Navbar />
+      <div className="logbook-container">
+        <h1>Logbook</h1>
 
-      <div className="p-6">
-        <h1 className="mb-6 text-2xl font-bold text-gray-800">
-          Daily Logbook
-        </h1>
-
-        <div className="mb-6 rounded-lg bg-white p-6 shadow-md">
+        <div className="entry-form">
           <textarea
-            placeholder="What did you do today?"
             value={entryText}
             onChange={(e) => setEntryText(e.target.value)}
-            className="mb-4 w-full rounded-md border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Write a new entry..."
             rows={4}
           />
-
-          <button
-            onClick={handleSaveEntry}
-            className="rounded-md bg-blue-600 px-6 py-2 font-semibold text-white hover:bg-blue-700"
-          >
-            Save Entry
+          <button onClick={handleSaveEntry} disabled={loading || !entryText.trim()}>
+            {loading ? 'Saving...' : 'Save Entry'}
           </button>
         </div>
 
-        <div className="rounded-lg bg-white p-6 shadow-md">
-          <h2 className="mb-4 text-lg font-semibold text-gray-800">
-            Past Entries
-          </h2>
-
-          <ul>
-            {entries.map((entry, index) => (
-              <li
-                key={index}
-                className="border-b py-2 text-gray-700 last:border-0"
-              >
-                {entry}
-              </li>
-            ))}
-          </ul>
+        <div className="entry-list">
+          {entries.length === 0 ? (
+            <p>No entries yet.</p>
+          ) : (
+            entries.map((entry) => (
+              <div key={entry.id} className="entry-item">
+                <p>{entry.entry_text}</p>
+                {entry.created_at && (
+                  <span className="entry-date">
+                    {new Date(entry.created_at).toLocaleString()}
+                  </span>
+                )}
+              </div>
+            ))
+          )}
         </div>
       </div>
     </div>
-  )
+  );
 }
 
-export default Logbook
+export default Logbook;
