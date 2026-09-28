@@ -22,28 +22,26 @@ This system solves that by digitizing the entire process into one platform.
 
 ## 🛠️ Tech Stack
 
-**Frontend:** React + TypeScript, Tailwind CSS, Vite
-**Backend:** Django REST Framework (planned)
-**Database:** PostgreSQL / MySQL (planned)
-**Authentication:** JWT (planned)
-**Maps & Location:** OpenStreetMap + Leaflet, browser/mobile GPS APIs (planned)
+* **Frontend:** React, TypeScript, Tailwind CSS, Vite
+* **Backend:** Django REST Framework[cite: 4]
+* **Database:** MySQL (via XAMPP)[cite: 4]
+* **Authentication:** JWT (SimpleJWT)[cite: 4]
+* **Maps & Location:** OpenStreetMap + Leaflet, browser/mobile GPS APIs (planned)[cite: 4]
 
 ## ✅ Current Progress
 
-- [x] Project structure set up (monorepo: `frontend/` + `backend/`)
-- [x] Frontend scaffolded with Vite + React + TypeScript
-- [x] Tailwind CSS configured and working
-- [ ] Student Portal UI (login, clock in/out, logbooks) — *in progress*
-- [ ] Lecturer Portal UI
-- [ ] Coordinator Portal UI
-- [ ] Backend API (Django REST Framework)
-- [ ] Database models and auth
-- [ ] GPS-based attendance verification
-- [ ] Reporting and analytics
+* [x] Project structure set up (`frontend/` + `backend/`)[cite: 4]
+* [x] Frontend scaffolded with Vite + React + TypeScript[cite: 4]
+* [x] Tailwind CSS configured and working[cite: 4]
+* [x] Backend API (Django REST Framework)[cite: 4]
+* [x] Database models and auth (MySQL + JWT)[cite: 4]
+* [x] Student Portal UI (login, clock in/out, logbooks) — *functional & integrated*
+* [ ] Lecturer Portal UI
+* [ ] Coordinator Portal UI
+* [ ] GPS-based attendance verification
+* [ ] Reporting and analytics
 
-> This project is being built incrementally, one feature at a time. Check the commit history for detailed progress.
-
-## 🚀 Getting Started (Frontend)
+> This project is being built incrementally, one feature at a time. Check the commit history for detailed progress.[cite: 4]
 
 ```bash
 # clone the repo
