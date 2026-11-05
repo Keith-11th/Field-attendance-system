@@ -17,3 +17,6 @@ backend/staticfiles/
 .idea/
 .DS_Store
 Thumbs.db
+# Database files
+db.sqlite3
+*.sqlite3
