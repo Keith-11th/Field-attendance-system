@@ -13,6 +13,15 @@ class UserProfile(models.Model):
     # This stores the specific role
     role = models.CharField(max_length=20, choices=ROLE_CHOICES, default='student')
 
+    # The lecturer responsible for this student (used when role is 'student')
+    supervisor = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='supervised_students',
+        limit_choices_to={'profile__role': 'lecturer'},
+    )
     def __str__(self):
         return f"{self.user.username} - {self.role}"
 
